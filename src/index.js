@@ -14,36 +14,43 @@ function Squere(props) {
 class Board extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { result: [] }
+        this.width = 10
+        this.height = 10
+        this.state = { x: 2, y: 3 }
+        this.handleArrowKey = this.handleArrowKey.bind(this)
     }
 
     handleArrowKey(e) {
         if (e.key === 'ArrowUp') {
-            console.log('Up')
+            this.setState({ y: this.state.y - 1 })
         }
         if (e.key === 'ArrowRight') {
-            console.log('Right')
+            this.setState({ x: this.state.x + 1 })
         }
         if (e.key === 'ArrowDown') {
-            console.log('Down')
+            this.setState({ y: this.state.y + 1 })
         }
         if (e.key === 'ArrowLeft') {
-            console.log('Left')
+            this.setState({ x: this.state.x - 1 })
         }
     }
 
-    getSqueres(len) {
+    getSqueres(indx) {
         let items = []
-        for (let i = 0; i < len; i++) {
+        for (let i = 0; i < this.height; i++) {
+            if (this.state.x === indx && this.state.y === i) {
+                items.push(<Squere key={i} black={true} />)
+                continue
+            }
             items.push(<Squere key={i} />)
         }
         return items
     }
 
-    getCol(key) {
+    getCol(indx) {
         return (
-            <div className='column' key={key}>
-                {this.getSqueres(8)}
+            <div className='column' key={indx}>
+                {this.getSqueres(indx)}
             </div>
         )
     };
@@ -51,7 +58,7 @@ class Board extends React.Component {
 
         const cols = []
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < this.width; i++) {
             cols.push(this.getCol(i))
         }
 
